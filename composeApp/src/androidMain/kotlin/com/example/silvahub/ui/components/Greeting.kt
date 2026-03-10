@@ -1,4 +1,6 @@
-package com.example.silvahub
+package com.example.silvahub.ui.components
+
+import com.example.silvahub.util.getPlatform
 
 class Greeting {
     private val platform = getPlatform()

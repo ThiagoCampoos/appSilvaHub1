@@ -1,4 +1,4 @@
-package com.example.silvahub
+package com.example.silvahub.util
 
 import android.os.Build
 
