@@ -18,7 +18,7 @@ kotlin {
 
     sourceSets {
         androidMain.dependencies {
-            implementation("androidx.activity:activity-compose:1.9.3")
+            implementation(libs.androidx.activity.compose)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -34,6 +34,10 @@ kotlin {
             implementation(kotlin("test"))
         }
     }
+}
+
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
 }
 
 android {
@@ -54,19 +58,24 @@ android {
     }
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    buildToolsVersion = "35.0.0"
+
 }
 
 dependencies {
-    debugImplementation("org.jetbrains.compose.ui:ui-tooling:1.10.0")
-    implementation("androidx.room:room-runtime:2.6.1")
+    debugImplementation(compose.uiTooling)
+    implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
-    implementation("androidx.room:room-ktx:2.6.1")
+    implementation(libs.androidx.room.ktx)
 }
