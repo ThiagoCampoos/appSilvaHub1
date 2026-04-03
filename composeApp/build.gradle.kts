@@ -28,7 +28,7 @@ kotlin {
             implementation(compose.components.resources)
             implementation(libs.androidx.lifecycle.viewmodel.compose)
             implementation(libs.androidx.lifecycle.runtime.compose)
-
+            implementation(libs.koin.android)
         }
         commonTest.dependencies {
             implementation(kotlin("test"))
