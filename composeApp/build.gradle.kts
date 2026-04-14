@@ -28,7 +28,7 @@ kotlin {
             implementation(compose.components.resources)
             implementation(libs.androidx.lifecycle.viewmodel.compose)
             implementation(libs.androidx.lifecycle.runtime.compose)
-
+            implementation(libs.koin.android)
         }
         commonTest.dependencies {
             implementation(kotlin("test"))
@@ -42,7 +42,7 @@ ksp {
 
 android {
     namespace = "com.example.silvahub"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.silvahub"
