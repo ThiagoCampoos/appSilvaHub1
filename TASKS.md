@@ -538,10 +538,10 @@ class SilvaHubApp : Application() {
 **Descrição:** Definir entidade Room para armazenar informações de salário
 
 **Subtarefas:**
-- [ ] Criar arquivo `SalarioEntity.kt` em `data/local/entity/`
-- [ ] Adicionar campos: `id` (Long, PrimaryKey), `valor` (Double), `mesReferencia` (String, formato "YYYY-MM"), `dataCriacao` (Long)
-- [ ] Adicionar anotações Room (`@Entity`, `@PrimaryKey`, `@ColumnInfo`)
-- [ ] Criar data class com valores padrão
+- [x] Criar arquivo `SalarioEntity.kt` em `data/local/entity/`
+- [x] Adicionar campos: `id` (Long, PrimaryKey), `valor` (Double), `mesReferencia` (String, formato "YYYY-MM"), `dataCriacao` (Long)
+- [x] Adicionar anotações Room (`@Entity`, `@PrimaryKey`, `@ColumnInfo`)
+- [x] Criar data class com valores padrão
 
 **Código Esperado:**
 ```kotlin
@@ -559,9 +559,9 @@ data class SalarioEntity(
 **Estimativa:** 15 minutos  
 **Dependências:** Fase 1 completa  
 **Critério de Aceitação:**
-- [ ] `SalarioEntity.kt` criado com todas as anotações
-- [ ] Compilando sem erros
-- [ ] Data class com construtor padrão
+- [x] `SalarioEntity.kt` criado com todas as anotações
+- [x] Compilando sem erros
+- [x] Data class com construtor padrão
 
 **Commit Sugerido:** `feat(phase2): create SalarioEntity`
 
@@ -572,10 +572,10 @@ data class SalarioEntity(
 **Descrição:** Definir entidade Room para armazenar contas fixas (despesas recorrentes)
 
 **Subtarefas:**
-- [ ] Criar arquivo `ContaFixaEntity.kt` em `data/local/entity/`
-- [ ] Adicionar campos: `id` (Long, PrimaryKey), `nome` (String), `valor` (Double), `diaVencimento` (Int), `ativa` (Boolean), `dataCriacao` (Long)
-- [ ] Adicionar anotações Room
-- [ ] Criar data class
+- [x] Criar arquivo `ContaFixaEntity.kt` em `data/local/entity/`
+- [x] Adicionar campos: `id` (Long, PrimaryKey), `nome` (String), `valor` (Double), `diaVencimento` (Int), `ativa` (Boolean), `dataCriacao` (Long)
+- [x] Adicionar anotações Room
+- [x] Criar data class
 
 **Código Esperado:**
 ```kotlin
@@ -596,8 +596,8 @@ data class ContaFixaEntity(
 **Estimativa:** 15 minutos  
 **Dependências:** Fase 1 completa  
 **Critério de Aceitação:**
-- [ ] `ContaFixaEntity.kt` criado com todas as anotações
-- [ ] Compilando sem erros
+- [x] `ContaFixaEntity.kt` criado com todas as anotações
+- [x] Compilando sem erros
 
 **Commit Sugerido:** `feat(phase2): create ContaFixaEntity`
 
