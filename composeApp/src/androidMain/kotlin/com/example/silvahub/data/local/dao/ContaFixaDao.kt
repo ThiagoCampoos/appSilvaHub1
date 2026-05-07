@@ -23,7 +23,7 @@ interface ContaFixaDao{
     @Query("DELETE FROM contas_fixas WHERE id = :id")
     suspend fun deletarPorId(id: Long)
 
-    @Query("SELECT * FROM contas_fixas WHERE ativa = 1 ORDER BY dia_vencimento ASC")
+    @Query("SELECT * FROM contas_fixas WHERE ativa = 1")
     fun getContasFixasAtivas(): Flow<List<ContaFixaEntity>>
 
     @Query("SELECT * FROM contas_fixas ORDER BY dia_vencimento ASC")

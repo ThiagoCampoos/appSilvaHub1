@@ -14,7 +14,7 @@ import com.example.silvahub.data.local.entity.SalarioEntity
 
 @Database(
     entities = [SalarioEntity::class, ContaFixaEntity::class, GastoEntity::class],
-    version = 1,
+    version = 2,
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun salarioDao(): SalarioDao
