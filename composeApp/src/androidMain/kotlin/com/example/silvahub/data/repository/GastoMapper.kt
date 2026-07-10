@@ -11,7 +11,10 @@ object GastoMapper {
         categoria = entity.categoria,
         data = entity.data,
         tipo = entity.tipo,
-        dataCriacao = entity.dataCriacao
+        parcelaAtual = entity.parcelaAtual,
+        totalParcelas = entity.totalParcelas,
+        grupoParcelamentoId = entity.grupoParcelamentoId,
+        dataCriacao = entity.dataCriacao,
     )
 
     fun toEntity(domain: Gasto) = GastoEntity(
@@ -21,6 +24,9 @@ object GastoMapper {
         categoria = domain.categoria,
         data = domain.data,
         tipo = domain.tipo,
-        dataCriacao = domain.dataCriacao
+        parcelaAtual = domain.parcelaAtual,
+        totalParcelas = domain.totalParcelas,
+        grupoParcelamentoId = domain.grupoParcelamentoId,
+        dataCriacao = domain.dataCriacao,
     )
 }

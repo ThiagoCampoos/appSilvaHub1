@@ -6,7 +6,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.ksp)
-
+    alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
@@ -19,6 +19,15 @@ kotlin {
     sourceSets {
         androidMain.dependencies {
             implementation(libs.androidx.activity.compose)
+            implementation(libs.androidx.navigation.compose)
+            implementation(libs.koin.android)
+            implementation(libs.koin.androidx.compose)
+            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.androidx.compose.material.icons.extended)
+            implementation(libs.androidx.datastore.preferences)
+            implementation(libs.androidx.work.runtime.ktx)
+            implementation(libs.androidx.glance.appwidget)
+            implementation(libs.androidx.glance.material3)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -28,10 +37,13 @@ kotlin {
             implementation(compose.components.resources)
             implementation(libs.androidx.lifecycle.viewmodel.compose)
             implementation(libs.androidx.lifecycle.runtime.compose)
-            implementation(libs.koin.android)
         }
         commonTest.dependencies {
             implementation(kotlin("test"))
+        }
+        androidUnitTest.dependencies {
+            implementation(kotlin("test"))
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")
         }
     }
 }
@@ -70,7 +82,6 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-
 }
 
 dependencies {

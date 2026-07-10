@@ -2,6 +2,7 @@ package com.example.silvahub
 
 import android.app.Application
 import com.example.silvahub.di.appModule
+import com.example.silvahub.notifications.ContasVencimentoWorker
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -14,6 +15,6 @@ class SilvaHubApp : Application() {
             androidContext(this@SilvaHubApp)
             modules(appModule)
         }
+        ContasVencimentoWorker.schedule(this)
     }
-
-    }
+}
