@@ -608,10 +608,10 @@ data class ContaFixaEntity(
 **Descrição:** Definir entidade Room para armazenar gastos individuais
 
 **Subtarefas:**
-- [ ] Criar arquivo `GastoEntity.kt` em `data/local/entity/`
-- [ ] Criar enum `TipoGasto` com valores: `RAPIDO`, `FIXO`
-- [ ] Criar enum `CategoriaGasto` com valores: `ALIMENTACAO`, `TRANSPORTE`, `LAZER`, `SAUDE`, `EDUCACAO`, `OUTROS`
-- [ ] Adicionar campos: `id` (Long, PrimaryKey), `descricao` (String), `valor` (Double), `categoria` (CategoriaGasto), `data` (Long), `tipo` (TipoGasto), `dataCriacao` (Long)
+- [x] Criar arquivo `GastoEntity.kt` em `data/local/entity/`
+- [x] Criar enum `TipoGasto` com valores: `RAPIDO`, `FIXO`
+- [x] Criar enum `CategoriaGasto` com valores: `ALIMENTACAO`, `TRANSPORTE`, `LAZER`, `SAUDE`, `EDUCACAO`, `OUTROS`
+- [x] Adicionar campos: `id` (Long, PrimaryKey), `descricao` (String), `valor` (Double), `categoria` (CategoriaGasto), `data` (Long), `tipo` (TipoGasto), `dataCriacao` (Long)
 
 **Código Esperado:**
 ```kotlin
@@ -640,8 +640,8 @@ data class GastoEntity(
 **Estimativa:** 20 minutos  
 **Dependências:** Fase 1 completa  
 **Critério de Aceitação:**
-- [ ] `GastoEntity.kt` criado com enums e anotações
-- [ ] Compilando sem erros
+- [x] `GastoEntity.kt` criado com enums e anotações
+- [x] Compilando sem erros
 
 **Commit Sugerido:** `feat(phase2): create GastoEntity with enums`
 

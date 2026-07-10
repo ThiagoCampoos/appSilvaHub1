@@ -6,6 +6,7 @@ import com.example.silvahub.domain.model.ContaFixa
 fun ContaFixaEntity.toDomain(): ContaFixa {
     return ContaFixa(
         id = id,
+        usuarioId = usuarioId,
         nome = nome,
         valor = valor,
         diaVencimento = diaVencimento,
@@ -17,6 +18,7 @@ fun ContaFixaEntity.toDomain(): ContaFixa {
 fun ContaFixa.toEntity(): ContaFixaEntity {
     return ContaFixaEntity(
         id = id,
+        usuarioId = usuarioId,
         nome = nome,
         valor = valor,
         diaVencimento = diaVencimento,

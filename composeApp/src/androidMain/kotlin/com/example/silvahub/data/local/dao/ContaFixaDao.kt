@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface ContaFixaDao{
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun inserir(conta: ContaFixaEntity) : Long
+    suspend fun inserir(conta: ContaFixaEntity)
 
     @Update
     suspend fun atualizar(conta: ContaFixaEntity)
@@ -21,7 +21,9 @@ interface ContaFixaDao{
     suspend fun deletar(conta: ContaFixaEntity)
 
     @Query("DELETE FROM contas_fixas WHERE id = :id")
-    suspend fun deletarPorId(id: Long)
+    suspend fun deletarPorId(
+        id: String
+    )
 
     @Query("SELECT * FROM contas_fixas WHERE ativa = 1")
     fun getContasFixasAtivas(): Flow<List<ContaFixaEntity>>
@@ -30,7 +32,7 @@ interface ContaFixaDao{
     fun getTodasAsContas(): Flow<List<ContaFixaEntity>>
 
     @Query("SELECT * FROM contas_fixas WHERE id = :id LIMIT 1")
-    fun getContaPorId(id: Long): Flow<ContaFixaEntity?>
+    fun getContaPorId(id: String): Flow<ContaFixaEntity?>
 
     @Query("SELECT COALESCE(SUM(valor), 0.0) FROM contas_fixas WHERE ativa = 1")
     fun getTotalContasFixasAtivas(): Flow<Double>

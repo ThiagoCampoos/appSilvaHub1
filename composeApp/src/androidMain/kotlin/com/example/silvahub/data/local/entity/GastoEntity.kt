@@ -6,8 +6,9 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "gastos")
 data class GastoEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id: Long = 0,
+    @PrimaryKey
+    val id: String,
+    val usuarioId: String,
     val descricao: String,
     val valor: Double,
     val categoria: ECategoriaGasto,

@@ -4,10 +4,10 @@ import com.example.silvahub.domain.model.Gasto
 import kotlinx.coroutines.flow.Flow
 
 interface GastoRepository {
-    suspend fun salvarGasto(gasto: Gasto): Long
+    suspend fun salvarGasto(gasto: Gasto)
     suspend fun atualizarGasto(gasto: Gasto)
     suspend fun deletarGasto(gasto: Gasto)
-    suspend fun deletarGastoPorId(id: Long)
+    suspend fun deletarGastoPorId(id: String)
 
     fun getGastoDoMes(mesAno: String): Flow<List<Gasto>>
     fun getTodosGastos(): Flow<List<Gasto>>

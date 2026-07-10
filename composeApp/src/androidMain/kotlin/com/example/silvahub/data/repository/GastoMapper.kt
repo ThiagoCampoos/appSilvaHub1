@@ -6,6 +6,7 @@ import com.example.silvahub.domain.model.Gasto
 object GastoMapper {
     fun toDomain(entity: GastoEntity) = Gasto(
         id = entity.id,
+        usuarioId = entity.usuarioId,
         descricao = entity.descricao,
         valor = entity.valor,
         categoria = entity.categoria,
@@ -16,6 +17,7 @@ object GastoMapper {
 
     fun toEntity(domain: Gasto) = GastoEntity(
         id = domain.id,
+        usuarioId = domain.usuarioId,
         descricao = domain.descricao,
         valor = domain.valor,
         categoria = domain.categoria,

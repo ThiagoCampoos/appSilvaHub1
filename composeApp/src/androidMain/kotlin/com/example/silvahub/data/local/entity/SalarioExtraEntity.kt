@@ -1,17 +1,15 @@
 package com.example.silvahub.data.local.entity
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "salarios")
-data class SalarioEntity(
+@Entity(tableName = "salarios_extras")
+data class SalarioExtraEntity(
     @PrimaryKey
     val id: String,
     val usuarioId: String,
+    val descricao: String,
     val valor: Double,
-    @ColumnInfo(name = "mes_referencia")
     val mesReferencia: String,
-    @ColumnInfo(name = "data_criacao")
-    val dataCriacao: Long = System.currentTimeMillis()
+    val dataCriacao: Long = System.currentTimeMillis(),
 )

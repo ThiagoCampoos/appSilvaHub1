@@ -10,8 +10,8 @@ class ContaFixaRepositoryImpl(
     private val contaFixaDao: ContaFixaDao,
 ) : ContaFixaRepository {
 
-    override suspend fun salvarConta(conta: ContaFixa): Long {
-        return contaFixaDao.inserir(conta.toEntity())
+    override suspend fun salvarConta(conta: ContaFixa) {
+        contaFixaDao.inserir(conta.toEntity())
     }
 
     override suspend fun atualizarConta(conta: ContaFixa) {
@@ -22,7 +22,9 @@ class ContaFixaRepositoryImpl(
         contaFixaDao.deletar(conta.toEntity())
     }
 
-    override suspend fun deletarContaPorId(id: Long) {
+    override suspend fun deletarContaPorId(
+        id: String
+    ) {
         contaFixaDao.deletarPorId(id)
     }
 
@@ -42,7 +44,7 @@ class ContaFixaRepositoryImpl(
         }
     }
 
-    override fun getContaPorId(id: Long): Flow<ContaFixa?> {
+    override fun getContaPorId(id: String): Flow<ContaFixa?> {
         return contaFixaDao.getContaPorId(id).map { entity ->
             entity?.toDomain()
         }

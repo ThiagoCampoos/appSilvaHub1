@@ -10,11 +10,13 @@ import com.example.silvahub.data.local.dao.SalarioDao
 import com.example.silvahub.data.local.entity.ContaFixaEntity
 import com.example.silvahub.data.local.entity.GastoEntity
 import com.example.silvahub.data.local.entity.SalarioEntity
+import com.example.silvahub.data.local.entity.SalarioExtraEntity
 
 
 @Database(
-    entities = [SalarioEntity::class, ContaFixaEntity::class, GastoEntity::class],
-    version = 2,
+    entities = [SalarioEntity::class, ContaFixaEntity::class, GastoEntity::class, SalarioExtraEntity::class],
+    version = 3,
+    exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun salarioDao(): SalarioDao

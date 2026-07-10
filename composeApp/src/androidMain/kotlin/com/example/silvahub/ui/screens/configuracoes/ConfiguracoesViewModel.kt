@@ -154,11 +154,15 @@ class ConfiguracoesViewModel(
         }
     }
 
-    fun deletarContaFixa(id: Long) {
+    fun deletarContaFixa(
+        id: String
+    ) {
         viewModelScope.launch {
             runCatching {
                 _uiState.update { it.copy(isLoading = true, errorMessage = null, successMessage = null) }
-                deletarContaFixaUseCase(id)
+                deletarContaFixaUseCase(
+                    id
+                )
             }.onSuccess {
                 _uiState.update {
                     it.copy(

@@ -10,8 +10,8 @@ class SalarioRepositoryImpl(
     private val salarioDao: SalarioDao,
 ) : SalarioRepository {
 
-    override suspend fun salvarSalario(salario: Salario): Long {
-        return salarioDao.inserir(salario.toEntity())
+    override suspend fun salvarSalario(salario: Salario) {
+        salarioDao.inserir(salario.toEntity())
     }
 
     override suspend fun atualizarSalario(salario: Salario) {
@@ -22,7 +22,7 @@ class SalarioRepositoryImpl(
         salarioDao.deletar(salario.toEntity())
     }
 
-    override suspend fun deletarSalarioPorId(id: Long) {
+    override suspend fun deletarSalarioPorId(id: String) {
         salarioDao.deletarPorId(id)
     }
 

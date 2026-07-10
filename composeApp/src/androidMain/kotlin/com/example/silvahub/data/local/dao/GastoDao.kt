@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface GastoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun inserir(gasto: GastoEntity) : Long
+    suspend fun inserir(gasto: GastoEntity)
 
     @Update
     suspend fun atualizar(gasto: GastoEntity)
@@ -22,7 +22,7 @@ interface GastoDao {
     suspend fun deletar(gasto: GastoEntity)
 
     @Query("DELETE FROM gastos WHERE id = :id")
-    suspend fun deletarPorId(id: Long)
+    suspend fun deletarPorId(id: String)
 
     @Query("SELECT * FROM gastos WHERE data BETWEEN :dataInicial AND :dataFinal ORDER BY data DESC")
     fun getGastosPorPeriodo(dataInicial: Long, dataFinal: Long): Flow<List<GastoEntity>>
@@ -39,5 +39,5 @@ interface GastoDao {
 
 
     @Query("SELECT * FROM gastos ORDER BY data DESC LIMIT :limit")
-    fun getUltimosGastos(limit: Int =10): Flow<List<GastoEntity>>
+    fun getUltimosGastos(limit: Int = 10): Flow<List<GastoEntity>>
 }

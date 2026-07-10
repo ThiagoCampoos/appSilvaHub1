@@ -1,7 +1,8 @@
 package com.example.silvahub.domain.model
 
 data class ContaFixa(
-    val id: Long = 0,
+    val id: String = java.util.UUID.randomUUID().toString(),
+    val usuarioId: String = "",
     val nome: String,
     val valor: Double,
     val diaVencimento: Int,

@@ -6,6 +6,9 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.ksp)
+    alias(
+        libs.plugins.googleGmsGoogleServices
+    )
 
 }
 
@@ -74,6 +77,10 @@ android {
 }
 
 dependencies {
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.firestore)
+    implementation(libs.kotlinx.coroutines.play.services)
+    implementation(libs.firebase.ai)
     debugImplementation(compose.uiTooling)
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
