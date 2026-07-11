@@ -3,10 +3,10 @@ package com.example.silvahub.ui.screens.historico
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.silvahub.domain.model.ECategoriaGasto
-import com.example.silvahub.domain.model.Gasto
 import com.example.silvahub.domain.model.InsightFinanceiro
-import com.example.silvahub.domain.usecase.ObterGastoDoMesUseCase
+import com.example.silvahub.domain.model.Lancamento
 import com.example.silvahub.domain.usecase.ObterInsightsUseCase
+import com.example.silvahub.domain.usecase.ObterLancamentosDoMesUseCase
 import com.example.silvahub.util.DateUtils
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,14 +18,14 @@ import kotlinx.coroutines.launch
 
 data class HistoricoUiState(
     val mesReferencia: String = DateUtils.mesReferenciaAtual(),
-    val gastos: List<Gasto> = emptyList(),
+    val lancamentos: List<Lancamento> = emptyList(),
     val insights: List<InsightFinanceiro> = emptyList(),
     val filtroCategoria: ECategoriaGasto? = null,
     val total: Double = 0.0,
 )
 
 class HistoricoViewModel(
-    private val obterGastoDoMesUseCase: ObterGastoDoMesUseCase,
+    private val obterLancamentosDoMesUseCase: ObterLancamentosDoMesUseCase,
     private val obterInsightsUseCase: ObterInsightsUseCase,
 ) : ViewModel() {
 
@@ -51,24 +51,15 @@ class HistoricoViewModel(
     }
 
     fun filtrarCategoria(categoria: ECategoriaGasto?) {
-        _uiState.update { state ->
-            val filtrados = if (categoria == null) {
-                state.gastos
-            } else {
-                // re-filter from full list via observing - store raw
-                state.gastos
-            }
-            state.copy(filtroCategoria = categoria)
-        }
-        // Force refresh display by re-collecting isn't needed; screen filters
+        _uiState.update { it.copy(filtroCategoria = categoria) }
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun observar() {
         viewModelScope.launch {
-            mesFlow.flatMapLatest { mes -> obterGastoDoMesUseCase(mes) }.collect { gastos ->
+            mesFlow.flatMapLatest { mes -> obterLancamentosDoMesUseCase(mes) }.collect { list ->
                 _uiState.update {
-                    it.copy(gastos = gastos, total = gastos.sumOf { g -> g.valor })
+                    it.copy(lancamentos = list, total = list.sumOf { l -> l.valor })
                 }
             }
         }

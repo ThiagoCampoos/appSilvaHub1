@@ -34,6 +34,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.silvahub.domain.model.label
+import com.example.silvahub.ui.components.CardFaturaAtual
 import com.example.silvahub.ui.components.SilvaHubLogo
 import com.example.silvahub.ui.theme.PrimaryGreen
 import com.example.silvahub.ui.theme.SecondaryRed
@@ -46,6 +47,7 @@ fun HomeScreen(
     onOpenGastos: () -> Unit,
     onOpenGraficos: () -> Unit,
     onOpenConfiguracoes: () -> Unit,
+    onOpenFatura: (Long) -> Unit = {},
     viewModel: HomeViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -118,9 +120,17 @@ fun HomeScreen(
                                 Text(
                                     text = "Pode gastar ${MoneyFormat.format(resumo?.gastoDiarioSugerido ?: 0.0)}/dia",
                                     style = MaterialTheme.typography.bodyMedium,
-                                    modifier = Modifier.padding(top = 8.dp),
                                 )
                             }
+                        }
+                    }
+
+                    uiState.faturaAtual?.let { fatura ->
+                        item {
+                            CardFaturaAtual(
+                                detalhe = fatura,
+                                onOpenDetalhes = { onOpenFatura(fatura.fatura.id) },
+                            )
                         }
                     }
 
