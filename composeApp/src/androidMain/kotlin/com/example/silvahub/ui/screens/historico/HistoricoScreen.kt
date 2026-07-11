@@ -23,13 +23,19 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.silvahub.domain.model.ECategoriaGasto
+import com.example.silvahub.domain.model.Lancamento
 import com.example.silvahub.domain.model.label
+import com.example.silvahub.ui.components.LancamentoBadge
+import com.example.silvahub.ui.components.LancamentoDetalhesDialog
 import com.example.silvahub.ui.theme.SecondaryRed
 import com.example.silvahub.util.MoneyFormat
 import org.koin.androidx.compose.koinViewModel
@@ -37,13 +43,15 @@ import org.koin.androidx.compose.koinViewModel
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun HistoricoScreen(
-    onOpenDetalhe: (Long) -> Unit,
+    onOpenDetalheGasto: (Long) -> Unit,
+    onOpenDetalheCompra: (Long) -> Unit,
     viewModel: HistoricoViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val gastosFiltrados = uiState.gastos.filter {
+    val filtrados = uiState.lancamentos.filter {
         uiState.filtroCategoria == null || it.categoria == uiState.filtroCategoria
     }
+    var dialogLancamento by remember { mutableStateOf<Lancamento?>(null) }
 
     Column(
         modifier = Modifier
@@ -61,13 +69,17 @@ fun HistoricoScreen(
             IconButton(onClick = viewModel::mesAnterior) {
                 Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, contentDescription = "Mês anterior")
             }
-            Text(uiState.mesReferencia, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+            Text(
+                uiState.mesReferencia,
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold,
+            )
             IconButton(onClick = viewModel::mesProximo) {
                 Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = "Próximo mês")
             }
         }
 
-        Text("Total: ${MoneyFormat.format(gastosFiltrados.sumOf { it.valor })}")
+        Text("Total: ${MoneyFormat.format(filtrados.sumOf { it.valor })}")
 
         if (uiState.insights.isNotEmpty()) {
             Text("Insights", style = MaterialTheme.typography.titleMedium)
@@ -97,10 +109,13 @@ fun HistoricoScreen(
             }
         }
 
-        LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.weight(1f)) {
-            items(gastosFiltrados, key = { it.id }) { gasto ->
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.weight(1f),
+        ) {
+            items(filtrados, key = { it.id }) { lancamento ->
                 Card(
-                    onClick = { onOpenDetalhe(gasto.id) },
+                    onClick = { dialogLancamento = lancamento },
                     modifier = Modifier.fillMaxWidth(),
                 ) {
                     Row(
@@ -109,15 +124,33 @@ fun HistoricoScreen(
                             .padding(12.dp),
                         horizontalArrangement = Arrangement.SpaceBetween,
                     ) {
-                        Column {
-                            Text(gasto.descricao, fontWeight = FontWeight.SemiBold)
-                            Text(gasto.categoria.label(), style = MaterialTheme.typography.bodySmall)
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(lancamento.descricao, fontWeight = FontWeight.SemiBold)
+                            Text(
+                                lancamento.categoria.label(),
+                                style = MaterialTheme.typography.bodySmall,
+                            )
+                            LancamentoBadge(lancamento = lancamento)
                         }
-                        Text(MoneyFormat.format(gasto.valor), color = SecondaryRed)
+                        Text(MoneyFormat.format(lancamento.valor), color = SecondaryRed)
                     }
                 }
             }
             item { Spacer(modifier = Modifier.height(24.dp)) }
         }
+    }
+
+    dialogLancamento?.let { lancamento ->
+        LancamentoDetalhesDialog(
+            lancamento = lancamento,
+            onDismiss = { dialogLancamento = null },
+            onOpenDetalhe = {
+                dialogLancamento = null
+                when {
+                    lancamento.gastoId != null -> onOpenDetalheGasto(lancamento.gastoId)
+                    lancamento.compraCartaoId != null -> onOpenDetalheCompra(lancamento.compraCartaoId)
+                }
+            },
+        )
     }
 }

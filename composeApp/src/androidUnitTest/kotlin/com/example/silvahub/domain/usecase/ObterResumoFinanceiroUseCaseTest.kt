@@ -59,6 +59,7 @@ class ObterResumoFinanceiroUseCaseTest {
                     ),
                 ),
             ),
+            pagamentoFaturaRepository = com.example.silvahub.domain.repository.FakePagamentoFaturaRepository(0L),
         )
         val resumo = useCase("2026-07").first()
         // 5000 + 500 - 1500 - 800 = 3200

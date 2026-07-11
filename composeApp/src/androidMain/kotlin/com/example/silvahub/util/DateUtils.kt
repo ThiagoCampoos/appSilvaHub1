@@ -67,4 +67,45 @@ object DateUtils {
         val lastDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH)
         return (lastDay - today + 1).coerceAtLeast(1)
     }
+
+    fun clampDiaCartao(dia: Int): Int = dia.coerceIn(1, 28)
+
+
+    fun mesReferenciaFatura(dataCompra: Long, diaFechamento: Int): String {
+        val dia = clampDiaCartao(diaFechamento)
+        val cal = Calendar.getInstance().apply { timeInMillis = dataCompra }
+        val diaCompra = cal.get(Calendar.DAY_OF_MONTH)
+        val mesAno = mesAnoFromTimestamp(dataCompra)
+        return if (diaCompra >= dia) nextMesAno(mesAno) else mesAno
+    }
+
+    fun dataFechamentoNoMes(mesAno: String, diaFechamento: Int): Long {
+        return timestampNoMes(mesAno, clampDiaCartao(diaFechamento))
+    }
+
+    fun dataVencimentoNoMes(mesAno: String, diaVencimento: Int): Long {
+        return timestampNoMes(mesAno, clampDiaCartao(diaVencimento))
+    }
+
+    private fun timestampNoMes(mesAno: String, dia: Int): Long {
+        val parts = mesAno.split("-")
+        require(parts.size == 2) { "mesAno inválido: $mesAno" }
+        val year = parts[0].toInt()
+        val month = parts[1].toInt()
+        return Calendar.getInstance().apply {
+            clear()
+            set(year, month - 1, dia, 0, 0, 0)
+            set(Calendar.MILLISECOND, 0)
+        }.timeInMillis
+    }
+
+    fun addMonthsToMesAno(mesAno: String, months: Int): String {
+        var result = mesAno
+        if (months >= 0) {
+            repeat(months) { result = nextMesAno(result) }
+        } else {
+            repeat(-months) { result = previousMesAno(result) }
+        }
+        return result
+    }
 }

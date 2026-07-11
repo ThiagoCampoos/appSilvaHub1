@@ -2,9 +2,11 @@ package com.example.silvahub.ui.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.silvahub.domain.model.FaturaDetalhe
 import com.example.silvahub.domain.model.Gasto
 import com.example.silvahub.domain.model.OrcamentoComProgresso
 import com.example.silvahub.domain.model.ResumoFinanceiro
+import com.example.silvahub.domain.usecase.ObterFaturaAtualUseCase
 import com.example.silvahub.domain.usecase.ObterOrcamentosComProgressoUseCase
 import com.example.silvahub.domain.usecase.ObterResumoFinanceiroUseCase
 import com.example.silvahub.domain.usecase.ObterUltimosGastosUseCase
@@ -19,6 +21,7 @@ data class HomeUiState(
     val resumo: ResumoFinanceiro? = null,
     val ultimosGastos: List<Gasto> = emptyList(),
     val orcamentos: List<OrcamentoComProgresso> = emptyList(),
+    val faturaAtual: FaturaDetalhe? = null,
     val isLoading: Boolean = true,
     val isRefreshing: Boolean = false,
 )
@@ -27,6 +30,7 @@ class HomeViewModel(
     private val obterResumoFinanceiroUseCase: ObterResumoFinanceiroUseCase,
     private val obterUltimosGastosUseCase: ObterUltimosGastosUseCase,
     private val obterOrcamentosComProgressoUseCase: ObterOrcamentosComProgressoUseCase,
+    private val obterFaturaAtualUseCase: ObterFaturaAtualUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(HomeUiState())
@@ -40,7 +44,6 @@ class HomeViewModel(
 
     fun refresh() {
         _uiState.update { it.copy(isRefreshing = true) }
-        // Flows já são reativos; apenas limpa o flag
         _uiState.update { it.copy(isRefreshing = false) }
     }
 
@@ -58,6 +61,11 @@ class HomeViewModel(
         viewModelScope.launch {
             obterOrcamentosComProgressoUseCase(mes).collect { list ->
                 _uiState.update { it.copy(orcamentos = list) }
+            }
+        }
+        viewModelScope.launch {
+            obterFaturaAtualUseCase().collect { fatura ->
+                _uiState.update { it.copy(faturaAtual = fatura) }
             }
         }
     }

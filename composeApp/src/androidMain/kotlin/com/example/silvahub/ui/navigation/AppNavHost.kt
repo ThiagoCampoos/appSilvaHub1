@@ -6,11 +6,13 @@ import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.automirrored.filled.List
-import androidx.compose.material.icons.filled.ShoppingCart
-import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.automirrored.outlined.List
+import androidx.compose.material.icons.filled.CreditCard
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.outlined.CreditCard
+import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.ShoppingCart
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -32,6 +34,9 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.silvahub.ui.components.SilvaHubLogo
+import com.example.silvahub.ui.screens.cartao.CartaoScreen
+import com.example.silvahub.ui.screens.cartao.DetalhesCompraCartaoScreen
+import com.example.silvahub.ui.screens.cartao.DetalhesFaturaScreen
 import com.example.silvahub.ui.screens.configuracoes.ConfiguracoesScreen
 import com.example.silvahub.ui.screens.configuracoes.EditarContaFixaScreen
 import com.example.silvahub.ui.screens.gastos.DetalhesGastoScreen
@@ -54,6 +59,7 @@ fun AppNavHost(openNovoGasto: Boolean = false) {
     val topLevel = listOf(
         TopLevelRoute("Home", AppRoute.Home, Icons.Filled.Home, Icons.Outlined.Home),
         TopLevelRoute("Gastos", AppRoute.Gastos, Icons.Filled.ShoppingCart, Icons.Outlined.ShoppingCart),
+        TopLevelRoute("Cartão", AppRoute.Cartao, Icons.Filled.CreditCard, Icons.Outlined.CreditCard),
         TopLevelRoute(
             "Histórico",
             AppRoute.Historico,
@@ -143,31 +149,62 @@ fun AppNavHost(openNovoGasto: Boolean = false) {
                             restoreState = true
                         }
                     },
+                    onOpenFatura = { id -> navController.navigate(AppRoute.DetalhesFatura(id)) },
                 )
             }
             composable<AppRoute.Gastos> {
                 GastosScreen(
                     openSheetOnStart = openNovoGasto,
-                    onOpenDetalhe = { id -> navController.navigate(AppRoute.DetalhesGasto(id)) },
+                    onOpenDetalheGasto = { id -> navController.navigate(AppRoute.DetalhesGasto(id)) },
+                    onOpenDetalheCompra = { id ->
+                        navController.navigate(AppRoute.DetalhesCompraCartao(id))
+                    },
+                    onOpenCartao = { navController.navigate(AppRoute.Cartao) },
                 )
             }
             composable<AppRoute.Historico> {
                 HistoricoScreen(
-                    onOpenDetalhe = { id -> navController.navigate(AppRoute.DetalhesGasto(id)) },
+                    onOpenDetalheGasto = { id -> navController.navigate(AppRoute.DetalhesGasto(id)) },
+                    onOpenDetalheCompra = { id ->
+                        navController.navigate(AppRoute.DetalhesCompraCartao(id))
+                    },
                 )
             }
             composable<AppRoute.Configuracoes> {
                 ConfiguracoesScreen(
                     onEditConta = { id -> navController.navigate(AppRoute.EditarContaFixa(id)) },
+                    onOpenCartao = { navController.navigate(AppRoute.Cartao) },
                 )
             }
             composable<AppRoute.Graficos> {
                 GraficosScreen(onBack = { navController.popBackStack() })
             }
+            composable<AppRoute.Cartao> {
+                CartaoScreen(
+                    onOpenFatura = { id -> navController.navigate(AppRoute.DetalhesFatura(id)) },
+                )
+            }
             composable<AppRoute.DetalhesGasto> { entry ->
                 val route = entry.toRoute<AppRoute.DetalhesGasto>()
                 DetalhesGastoScreen(
                     gastoId = route.gastoId,
+                    onBack = { navController.popBackStack() },
+                )
+            }
+            composable<AppRoute.DetalhesFatura> { entry ->
+                val route = entry.toRoute<AppRoute.DetalhesFatura>()
+                DetalhesFaturaScreen(
+                    faturaId = route.faturaId,
+                    onBack = { navController.popBackStack() },
+                    onOpenCompra = { id ->
+                        navController.navigate(AppRoute.DetalhesCompraCartao(id))
+                    },
+                )
+            }
+            composable<AppRoute.DetalhesCompraCartao> { entry ->
+                val route = entry.toRoute<AppRoute.DetalhesCompraCartao>()
+                DetalhesCompraCartaoScreen(
+                    compraId = route.compraId,
                     onBack = { navController.popBackStack() },
                 )
             }

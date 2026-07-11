@@ -29,6 +29,13 @@ class ContasVencimentoWorker(
         val repository = GlobalContext.get().get<ContaFixaRepository>()
         val hoje = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
         val contas = repository.getContasFixasAtivas().first().filter { it.diaVencimento == hoje }
+
+        // Gera cobranças recorrentes do cartão (idempotente)
+        runCatching {
+            GlobalContext.get().get<com.example.silvahub.domain.usecase.GerarCobrancasRecorrentesUseCase>()
+                .invoke()
+        }
+
         if (contas.isEmpty()) return Result.success()
 
         createChannel(applicationContext)

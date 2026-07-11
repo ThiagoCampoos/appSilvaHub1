@@ -64,6 +64,7 @@ import java.util.Locale
 @Composable
 fun ConfiguracoesScreen(
     onEditConta: (Long) -> Unit,
+    onOpenCartao: () -> Unit = {},
     viewModel: ConfiguracoesViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -168,6 +169,22 @@ fun ConfiguracoesScreen(
                         Button(onClick = viewModel::salvarSalario, enabled = !uiState.isLoading, modifier = Modifier.fillMaxWidth()) {
                             Text("Salvar salário")
                         }
+                    }
+                }
+            }
+
+            item {
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { onOpenCartao() },
+                ) {
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Text("Cartão de crédito", style = MaterialTheme.typography.titleMedium)
+                        Text(
+                            "Limite, fechamento, vencimento e faturas",
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
                     }
                 }
             }

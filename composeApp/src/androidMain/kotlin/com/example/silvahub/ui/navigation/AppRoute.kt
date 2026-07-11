@@ -19,7 +19,16 @@ sealed interface AppRoute {
     data object Graficos : AppRoute
 
     @Serializable
+    data object Cartao : AppRoute
+
+    @Serializable
     data class DetalhesGasto(val gastoId: Long) : AppRoute
+
+    @Serializable
+    data class DetalhesFatura(val faturaId: Long) : AppRoute
+
+    @Serializable
+    data class DetalhesCompraCartao(val compraId: Long) : AppRoute
 
     @Serializable
     data class EditarContaFixa(val contaId: Long) : AppRoute
